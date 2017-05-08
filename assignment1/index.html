@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" ng-app="LunchCheck">
+  <head>
+    <title>Lunch Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./scripts/angular.min.js"></script>
+    <script src="./scripts/app.js"></script>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <style>
+      .message { font-size: 1.3em; font-weight: bold; }
+    </style>
+  </head>
+<body ng-controller="LunchCheckController">
+   <div class="container">
+     <h1>Lunch Checker</h1>
+
+         <div class="form-group">
+             <input id="lunch-menu" type="text"
+             placeholder="list comma separated dishes you usually have for lunch"
+             class="form-control" ng-model="dishes">
+             <p>Please note that we do NOT consider an empty item, i.e., , , as an item towards the count</p>
+         </div>
+         <div class="form-group">
+             <button class="btn btn-default" ng-click="countDishes()" ng-style="(feedback === 'Enjoy!' ||  feedback === 'Too much!') && {'border-color': 'green'} ||
+                      feedback === 'Please enter data first' && {'border-color': 'red'}">Check If Too Much</button>
+         </div>
+         <div class="form-group message" ng-style="(feedback === 'Enjoy!' ||  feedback === 'Too much!') && {'color': 'green'} ||
+                  feedback === 'Please enter data first' && {'color': 'red'}">
+           <!-- Your message can go here. -->
+           {{ feedback }}
+         </div>
+   </div>
+
+</body>
+</html>
