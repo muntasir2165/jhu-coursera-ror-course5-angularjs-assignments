@@ -17,7 +17,7 @@
             or not specifying the restrict property causes
               Error: $compile:multidir Multiple Directive Resource Contention
             */
-            templateUrl: '../loader/itemsloaderindicator.template.html',
+            templateUrl: '../itemsloaderindicator.template.html',
             scope: {
               emptySearch: '<',
               nothingFound: '<',
@@ -49,7 +49,7 @@
             var promise = MenuSearchService.getMatchedMenuItems(nidc.searchTerm);
 
             promise.then(function (response) {
-              console.log(response.data);
+              // console.log(response.data);
               response.data.menu_items.forEach(function(entry) {
                 if (entry.description.toLowerCase().includes(nidc.searchTerm.toLowerCase())) {
                   // console.log(entry.description);
