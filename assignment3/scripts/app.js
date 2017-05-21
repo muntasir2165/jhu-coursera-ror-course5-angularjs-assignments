@@ -8,7 +8,7 @@
         .directive('foundItems', foundItemsDirective);
 
 
-        function foundItemsDirective() {
+      function foundItemsDirective() {
           var ddo = {
             restrict: 'E',
             /*
@@ -16,6 +16,9 @@
               restrict: 'EA'
             or not specifying the restrict property causes
               Error: $compile:multidir Multiple Directive Resource Contention
+            /*
+            the following relative path is with respect to the location of
+            index.html and NOT the app.js page
             */
             templateUrl: './loader/itemsloaderindicator.template.html',
             scope: {
@@ -37,27 +40,24 @@
     function NarrowItDownController(MenuSearchService) {
         var nidc = this;
         // we need to initialize the found array to [] for some logic in the directive template
-        nidc.found = [];
+        nidc.foundItems = [];
         nidc.findItems = function () {
-          // for every search query, we need to start with an empty found array that will be populated with new results
-          nidc.found = [];
+          // for every search query, we need to start with an empty nidc.foundItems array that will be populated with new results
+          nidc.foundItems = [];
           if (nidc.searchTerm == undefined || nidc.searchTerm == null || nidc.searchTerm == "") {
             // console.log("Empty search box");
             nidc.emptySearch = true;
           } else {
             nidc.emptySearch = false;
-            var promise = MenuSearchService.getMatchedMenuItems(nidc.searchTerm);
+            nidc.found = MenuSearchService.getMatchedMenuItems(nidc.searchTerm);
+            // console.log(nidc.found);
+            // console.log(nidc.found.value);
 
-            promise.then(function (response) {
-              // console.log(response.data);
-              response.data.menu_items.forEach(function(entry) {
-                if (entry.description.toLowerCase().includes(nidc.searchTerm.toLowerCase())) {
-                  // console.log(entry.description);
-                    nidc.found.push(entry);
-                }
-              });
-              // console.log(nidc.found);
-              if (nidc.found.length == undefined || nidc.found.length == null || nidc.found.length == 0) {
+            nidc.found.then(function (foundItems) {
+              // console.log(foundItems); //=> prints the array of objects foundItems
+              // console.log(foundItems.data);
+              nidc.foundItems = foundItems;
+              if (nidc.foundItems.length == 0) {
                 // console.log("Nothing found");
                 nidc.nothingFound = true;
               } else {
@@ -72,8 +72,8 @@
         };
 
         nidc.removeItem = function (index) {
-          if (nidc.found != null) {
-            nidc.found.splice(index, 1);
+          if (nidc.foundItems.length != 0) {
+            nidc.foundItems.splice(index, 1);
           }
         };
     }
@@ -84,35 +84,27 @@
         var service = this;
 
         service.getMatchedMenuItems = function (searchTerm) {
-          var response = $http({
-              method: "GET",
-              url: (ApiBasePath + "/menu_items.json")
-          });
-          return response;
-            // var response = $http({
-            //     method: "GET",
-            //     url: (ApiBasePath + "/menu_items.json")
-            // }).then(function(result) {
-            //     // process result and only keep items that match
-            //     // this callback will be called asynchronously
-            //     // when the response/result is available
-            //     var foundItems = [];
-            //     // console.log(result.data);
-            //     // console.log(result.data.menu_items[0].description);
-            //     result.data.menu_items.forEach(function(entry) {
-            //         if (entry.description.toLowerCase().includes(searchTerm.toLowerCase())) {
-            //             // console.log(entry.description);
-            //             foundItems.push(entry);
-            //         }
-            //     });
-            //     // return processed items
-            //     console.log(foundItems);
-            //     return foundItems;
-            // }, function errorCallback(response) {
-            //     // called asynchronously if an error occurs
-            //     // or server returns response with an error status.
-            //     console.log("ERROR: " + response);
-            // });
+            return $http({
+                method: "GET",
+                url: (ApiBasePath + "/menu_items.json")
+            }).then(function(result) {
+                // process result and only keep items that match
+                // this callback will be called asynchronously
+                // when the response/result is available
+                var foundItems = [];
+                // console.log(result);
+                // console.log(result.data);
+                // console.log(result.data.menu_items[0].description);
+                result.data.menu_items.forEach(function(entry) {
+                    if (entry.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        // console.log(entry.description);
+                        foundItems.push(entry);
+                    }
+                });
+                // return processed items
+                // console.log(foundItems);
+                return foundItems;
+              });
         };
     }
 

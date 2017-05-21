@@ -3,7 +3,7 @@
 <br><br><br>
 <div class="emptyMessage" ng-if="nidc.emptySearch || nidc.nothingFound"> Nothing found</div>
 
-<div ng-if="nidc.foundItems.length != 0">
+<div ng-if="nidc.foundItems != undefined && nidc.foundItems.length != 0">
   <h2>Search Results:</h2>
   <h4 class="blink">Displaying {{ nidc.foundItems.length }} results</h4>
   <br>
