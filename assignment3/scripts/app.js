@@ -17,7 +17,7 @@
             or not specifying the restrict property causes
               Error: $compile:multidir Multiple Directive Resource Contention
             */
-            templateUrl: '../itemsloaderindicator.template.html',
+            templateUrl: './loader/itemsloaderindicator.template.html',
             scope: {
               emptySearch: '<',
               nothingFound: '<',
