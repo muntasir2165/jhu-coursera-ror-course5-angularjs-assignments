@@ -65,3 +65,7 @@ i had to use the following css rule
 th {
   text-align: center;
 }
+
+td.categoryLink:hover {
+  cursor: pointer;
+}

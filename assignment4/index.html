@@ -8,9 +8,19 @@
     <title>Restaurant Menu App</title>
   </head>
   <body>
-    <h1>Welcome to the Restaurant Menu App</h1>
+    <div class="container">
 
-    <ui-view></ui-view>
+      <div class="row text-center">
+        <h1>Welcome to the Restaurant Menu App</h1>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-md-4 col-md-push-4">
+            <ui-view></ui-view>
+        </div>
+      </div>
+
+    </div>
 
     <!-- Libraries -->
     <script src="lib/angular.min.js"></script>

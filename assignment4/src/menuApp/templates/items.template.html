@@ -1,5 +1,14 @@
-<ul>
-  <li ng-repeat="item in $ctrl.items.menu_items">
-    {{ item.name }} {{ item.short_name }}
-  </li>
-</ul>
+
+  <table class="table table-hover table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>{{$ctrl.items.category.name}} Menu Items</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in $ctrl.items.menu_items">
+      <td>{{ item.name }} ({{ item.short_name }})</td>
+    </tr>
+      </tr>
+    </tbody>
+  </table>
